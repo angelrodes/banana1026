@@ -55,6 +55,9 @@ l26=log(2)/0.705e6;
 % Define density
 density=2.65;
 
+% round for a given precision function
+round_precis=@(x,p) round(x*10^p)/10^p;
+
 
 for sample=1:numel(C10)
 
@@ -133,8 +136,8 @@ for sample=1:numel(C10)
             solutiont=[unique(min(tmatrix(sel))),unique(max(tmatrix(sel))),tmatrix(sel2)];
             eprecis=round(log10(min(diff(unique(eref)))));
             tprecis=round(log10(min(diff(unique(tref)))));
-            solutione=round(solutione,-eprecis);
-            solutiont=round(solutiont,-tprecis);
+            solutione=round_precis(solutione,-eprecis);
+            solutiont=round_precis(solutiont,-tprecis);
             selmatrix=find(sel);
         end
         if count>1000
@@ -161,7 +164,7 @@ for sample=1:numel(C10)
         figure(1)
 %         set(h,'Visible', 'off');
         %     figure(1)
-        %     subplot(round(numel(C10)/2),2,sample)
+        %     subplot(round_precis(numel(C10)/2),2,sample)
         hold on
         plotpoints=1000;
         
@@ -249,7 +252,7 @@ for sample=1:numel(C10)
         %     plot(solutiont(3)+1,solutione(3),'xb')
         %     plot([solutiont(1),solutiont(2)]+1,[solutione(3),solutione(3)],'-b')
         %     plot([solutiont(3),solutiont(3)]+1,[solutione(1),solutione(2)],'-b')
-        contour(tmatrix+1,ematrix,chimatrix,[0,maxchi],'Color','b')
+        contour(tmatrix+1,ematrix,chimatrix,[0,maxchi])
     sel=find(chimatrix<=maxchi);
     %     plot(tmatrix(sel),ematrix(sel),'.b')
         text(solutiont(3)+1,solutione(3),...
